@@ -12,10 +12,12 @@ HTML에서 사용하는 명령어이며, 모든 태그는 HTML 요소(HTML eleme
    - [📄 이미지](#-이미지-태그)
    - [📄 비디오](#-비디오-태그)
    - [📄 오디오](#-오디오-태그)
+3. [📂 테이블 요소](#-3-테이블table-요소)
    - [📄 테이블](#-테이블-태그)
-3. [📂 Form 요소](#-3-Form-요소)
-   - [📄 input 요소](#-input-요소)
-   - [📄 label 태그](#-label-태그)
+   - [📄 CSS 테이블](#-CSS-테이블)
+4. [📂 폼 요소](#-4-폼form-요소)
+   - [📄 폼](#-폼-태그)
+   - [📄 CSS 폼](#-CSS-폼)
  
 ## 📂 1. 텍스트 요소
 ✔ HTML을 구성하는 텍스트 요소입니다.
@@ -337,12 +339,17 @@ source : "page1.html"
   
 </details>
 
+🔼[위로가기](#)
+
+## 📂 3. 테이블(table) 요소
+✔ 테이블의 요소를 이용해 테이블을 작성할 수 있습니다.
+
 ### 📄 테이블 태그
-◽ 테이블을 생성하기 위한 태그 : \<table\>, \<tr\>, \<td\>, 속성 : rowspan, colspan ...  
+◽ 테이블을 생성하기 위한 태그 : \<table\>, \<th\>, \<tr\>, \<td\> 속성 : rowspan, colspan ...  
 
-◽ \<tr\>은 행(table row)을 나타내는 태그, \<td\>은 열(table data)을 나타내는 태그  
+◽ \<th\>는 표의 제목(table head), \<tr\>은 행(table row)을 나타내며, \<td\>은 열(table data)을 나타내는 태그입니다.
 
-◽ rowspan은 행을 병합, colspan은 열을 병합
+◽ rowspan은 행을 병합, colspan은 열을 병합합니다.
 
 <details>
 <summary>🔎예제 코드 확인</summary>
@@ -351,7 +358,6 @@ source : "page1.html"
 <html>
 <head>
     <meta charset="utf-8">
-    <!-- 선택자 -->
     <style>
         table, th, tr, td {
             border: solid 1px black; 
@@ -398,12 +404,106 @@ source : "page1.html"
 
 <hr/>
 
+### 📄 CSS 테이블
+◽ CSS를 이용하면 테이블 요소를 다양한 스타일로 설정할 수 있습니다.
+
+<details>
+<summary>🔎예제 코드 확인</summary>
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CSS 테이블</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 618px;       
+        }
+        table, td, th {
+            border: solid 1px #cccccc;
+        }
+        tr {
+            height: 40px;
+            text-align: center;
+        }
+        #table_title {
+            height: 30px;
+            background-color: wheat;
+        }
+        #col1, #col4 {
+            width: 90px;
+        }
+        #col2, #col3 {
+            width: 60px;
+        }
+        #col5, #col6 {
+            width: 80px;
+        }
+        .train {
+            background-color: rgb(248, 231, 248);
+            color: violet;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>KTX 열차표 예매</h2>
+    <table>
+        <tr id="table_title">
+            <th>열차번호</th>
+            <th>출발</th>
+            <th>도착</th>
+            <th>출발시간</th>
+            <th>특실</th>
+            <th>일반실</th>
+            <th>소요시간</th>
+        </tr>
+        <tr>
+            <td id="col1" class="train">75</td>
+            <td id="col2">서울</td>
+            <td id="col3">부산</td>
+            <td id="col4">21:00</td>
+            <td id="col5"><img src="../img/full.png" alt=""></td>
+            <td id="col6"><img src="../img/full.png" alt=""></td>
+            <td id="col7">02:44</td>
+        </tr>
+        <tr>
+            <td class="train">77</td>
+            <td>서울</td>
+            <td>부산</td>
+            <td>21:30</td>
+            <td><img src="../img/empty.png" alt=""></td>
+            <td><img src="../img/empty.png" alt=""></td>
+            <td>02:44</td>
+        </tr>
+        <tr>
+            <td class="train">79</td>
+            <td>서울</td>
+            <td>부산</td>
+            <td>22:00</td>
+            <td><img src="../img/empty.png" alt=""></td>
+            <td><img src="../img/empty.png" alt=""></td>
+            <td>02:42</td>
+        </tr>
+    </table>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208067117-10cf30db-e2db-4324-9b80-eb5290670e3f.png)
+
+</details>
+
+<hr/>
+
 🔼[위로가기](#)
 
-## 📂 3. Form 요소
+## 📂 4. 폼(form) 요소
 ✔ 정보를 제출하기 위한 대화형 컨트롤(interactive controls)을 포함하는 문서 부분(document section)입니다.
 
-### 📄 input 요소
+### 📄 input 태그
 
 ◽ Form 요소 내부에서 쓰이면 사용자의 데이터(웹 기반 양식)를 받을 수 있는 대화형 컨트롤을 생성합니다.  
 
@@ -632,4 +732,8 @@ source : "page1.html"
 
 <hr/>
 
+### 📄 CSS 응용
+
 ### 📄 label 태그
+
+🔼[위로가기](#)

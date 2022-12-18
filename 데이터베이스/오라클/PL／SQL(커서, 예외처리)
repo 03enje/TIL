@@ -1,0 +1,333 @@
+## 커서
+> DML문을 실행했을때 해당 SQL문을 처리하는 정보를 저장한 메모리 공간  
+> SELECT 문의 수행 결과가 다중 행일 경우 모든 행에 대한 처리를 하려면 커서를 사용해야합니다.
+
+```SQL
+DECLARE
+  CURSOR 커서 이름 IS SQL문;    -- 커서 선언(declaration)
+BEGIN
+  OPEN 커서 이름;               -- 커서 열기(open)
+  FETCH 커서 이름 INTO 변수;    --커서로부터 읽어온 데이터 사용(fetch)
+  CLOSE 커서 이름;              -- 커서 닫기(close)
+END
+```
+
+* 일반적인 SELECT INTO 방식
+```SQL
+--- 단일 행일 경우
+DECLARE
+  V_DEPT_ROW DEPARTMENT%ROWTYPE;
+BEGIN
+  SELECT DNO, DNAME, LOC
+    INTO V_DEPT_ROW
+```
+
+* 커서를 사용한 경우
+```SQL
+DECLARE
+  -- 커서 데이터를 할당할 변수 선언
+  V_DEPT_ROW DEPARTMENT%ROWTYPE;
+  
+  -- 명시적 커서 선언(declaration)
+  CURSOR c1 IS
+             SELECT DNO, DNAME, LOC
+               FROM DEPARTMENT
+              WHERE DNO = 40;
+BEGIN
+  -- 커서 열기(open)
+  OPEN c1;
+  -- 커서로부터 읽어온 데이터 사용(fetch)
+  FETCH c1 INTO V_DEPT_ROW;
+  DBMS_OUTPUT.PUT_LINE('DEPTNO : ' || V_DEPT_ROW.DNO);
+  DBMS_OUTPUT.PUT_LINE('DNAME : ' || V_DEPT_ROW.DNAME);
+  DBMS_OUTPUT.PUT_LINE('LOC : ' || V_DEPT_ROW.LOC);
+  
+  -- 커서 닫기
+  CLOSE c1;
+END;
+/
+
+```
+* 여러 행의 데이터를 커서에 저장하여 사용하기
+```SQL
+-- 여러 행의 데이터를 커서에 저장하여 사용하기
+DECLARE
+  -- 커서 데이터를 할당할 변수 선언 
+  V_DEPT_ROW DEPARTMENT%ROWTYPE;
+  -- 명시적 커서 선언
+  CURSOR C1 IS
+             SELECT DNO, DNAME, LOC
+               FROM DEPARTMENT;
+BEGIN
+  -- 커서 열기
+  OPEN C1;
+  LOOP
+    -- 커서로부터 읽어온 데이터 사용(Fetch)
+    FETCH C1 INTO V_DEPT_ROW;
+    
+    -- 커서의 모든 행을 읽어오기 위해 %NOTFOUND 속성 사용
+    EXIT WHEN C1%NOTFOUND;
+    
+      DBMS_OUTPUT.PUT_LINE('DEPTNO : ' || V_DEPT_ROW.DNO);
+      DBMS_OUTPUT.PUT_LINE('DNAME : ' || V_DEPT_ROW.DNAME);
+      DBMS_OUTPUT.PUT_LINE('LOC : ' || V_DEPT_ROW.LOC);
+  END LOOP;
+  -- 커서 닫기
+  CLOSE C1;
+END;
+/
+```
+```SQL
+/*
+ * 명시적 커서를 사용하여 EMP 테이블의 전체 데이터를 조회한 후 커서 안의
+ * 데이터가 다음과 같이 출력되도록 PL/SQL 문을 작성
+ * 단, LOOP를 사용
+ */
+DECLARE
+  V_EMP_ROW EMPLOYEE%ROWTYPE;
+  
+  CURSOR C1 IS
+               SELECT ENO, ENAME, JOB, MANAGER, HIREDATE, SALARY, COMMISSION, DNO
+                 FROM EMPLOYEE;                
+BEGIN
+  OPEN C1;
+    LOOP
+      FETCH C1 INTO V_EMP_ROW;
+      EXIT WHEN C1%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('ENO : ' || V_EMP_ROW.ENO
+                        || ', ENAME : ' || V_EMP_ROW.ENAME
+                        || ', JOB : ' || V_EMP_ROW.JOB
+                        || ', SALARY : ' || V_EMP_ROW.SALARY
+                        || ', DNO : ' || V_EMP_ROW.DNO);
+    END LOOP;
+  CLOSE C1;
+END;
+/
+```
+* FOR LOOP 문을 활용하여 커서 사용
+```SQL
+-- FOR LOOP 문을 활용하여 커서 사용하기
+-- OPEN, FETCH, CLOSE문을 작성 불필요 - 커서사용방법 간단해짐
+DECLARE
+  -- 명시적 커서 선언
+  CURSOR C1 IS
+  SELECT DNO, DNAME, LOC
+    FROM DEPARTMENT;
+BEGIN
+  -- 커서 FOR LOOP 시작(자동 OPEN, FETCH, CLOSE)
+  FOR c1_rec IN C1 LOOP
+    DBMS_OUTPUT.PUT_LINE('DNO : ' || c1_rec.DNO
+                         || ', DNAME : ' || c1_rec.DNAME
+                         || ', LOC : ' || c1_rec.LOC);
+                         
+  END LOOP;
+END;
+/
+```
+```SQL
+/*
+ * 명시적 커서를 사용하여 EMP 테이블의 전체 데이터를 조회한 후 커서 안의
+ * 데이터가 다음과 같이 출력되도록 PL/SQL 문을 작성
+ * FOR LOOP를 사용한 방식
+ */
+DECLARE
+  CURSOR C1 IS
+               SELECT ENO, ENAME, JOB, SALARY, DNO
+                 FROM EMPLOYEE;
+BEGIN
+  FOR c1_rec IN C1 LOOP
+    DBMS_OUTPUT.PUT_LINE('ENO : ' || c1_rec.ENO
+                        || ', ENAME : ' || c1_rec.ENAME
+                        || ', JOB : ' || c1_rec.JOB
+                        || ', SALARY : ' || c1_rec.SALARY
+                        || ', DNO : ' || c1_rec.DNO);
+  END LOOP;
+END;
+/
+
+```
+* 파라미터를 사용하는 커서
+```SQL
+DECLARE
+  -- 커서 데이터를 입력할 변수 선언
+  V_DEPT_ROW DEPARTMENT%ROWTYPE;
+  -- 명시적 커서 선언
+  CURSOR C1(p_dno DEPARTMENT.DNO%TYPE) IS
+         SELECT DNO, DNAME, LOC
+           FROM DEPARTMENT
+          WHERE DNO = p_dno;
+          
+BEGIN
+  -- 10번 부서 처리를 위해 커서 사용
+  OPEN C1(10);
+    LOOP
+      FETCH C1 INTO V_DEPT_ROW;
+      EXIT WHEN C1%NOTFOUND;
+      DBMS_OUTPUT.PUT_LINE('10번 부서 - DEPTNO : ' || V_DEPT_ROW.DNO
+                          || ', DNAME : ' || V_DEPT_ROW.DNAME
+                          || ', LOC : ' || V_DEPT_ROW.LOC);
+    END LOOP;
+  CLOSE C1;
+  -- 20번 부서 처리를 위해 커서 사용
+  OPEN C1(20);
+    LOOP
+      FETCH C1 INTO V_DEPT_ROW;
+      EXIT WHEN C1%NOTFOUND;
+      DBMS_OUTPUT.PUT_LINE('20번 부서 - DEPTNO : ' || V_DEPT_ROW.DNO
+                          || ', DNAME : ' || V_DEPT_ROW.DNAME
+                          || ', LOC : ' || V_DEPT_ROW.LOC);
+    END LOOP;
+  CLOSE C1;
+END;
+/
+```
+* 커서에 사용할 파라미터 입력받기
+```SQL
+-- 커서에 사용할 파라미터 입력받기
+DECLARE
+  -- 사용자가 입력한 부서번호를 저장하는 변수 선언
+  v_deptno DEPARTMENT.DNO%TYPE;
+  -- 명시적 커서 선언
+  CURSOR C1 (p_deptno DEPARTMENT.DNO%TYPE) IS
+                                               SELECT DNO, DNAME, LOC
+                                                 FROM DEPARTMENT
+                                                WHERE DNO = p_deptno;
+BEGIN
+  -- INPUT_DEPTNO에 부서번호 입력받고 v_deptno 에 대입
+  v_deptno := &INPUT_DEPTNO;
+  -- 커서 FOR LOOP 시작 C1 커서에 v_deptno를 대입
+  FOR c1_rec IN C1(v_deptno) LOOP
+    DBMS_OUTPUT.PUT_LINE('DEPTNO : ' || c1_rec.DNO
+                        || ', DNAME : ' || c1_rec.DNAME
+                        || ', LOC : ' || c1_rec.LOC);
+  END LOOP;
+END;
+/
+```
+* 묵시적 커서
+```SQL
+/*
+ * 묵시적 커서 - 
+ * 별다른 선언없이 (OPEN, PETCH, CLOSE없이) PL/SQL 내부에서 
+ * DML 명령이나 SELECT INTO 문들이 실행될 때 자동으로 생성 및 처리됩니다.
+ */
+
+SELECT * FROM DEPT_RECORD;
+  
+-- 묵시적 커서의 속성 사용하기
+BEGIN
+  UPDATE DEPT_RECORD
+     SET DNAME = 'DATABASE'
+   WHERE DNO = 50;
+
+  DBMS_OUTPUT.PUT_LINE('갱신된 행의 수 : ' || SQL%ROWCOUNT);
+  IF (SQL%FOUND) THEN
+    DBMS_OUTPUT.PUT_LINE('갱신 대상 행 존재 여부 : TRUE');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('갱신 대상 행 존재 여부 : FALSE');
+  END IF;
+  
+  IF (SQL%ISOPEN) THEN
+    DBMS_OUTPUT.PUT_LINE('커서의 OPEN 여부 : TRUE');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('커서의 OPEN 여부 : FALSE');
+  END IF;
+END;
+/
+```
+## 예외처리
+> 오류가 발생해도 프로그램이 비정상 종료 되지 않도록 예외 처리
+```SQL
+-- 예외가 발생하는 PL/SQL
+DECLARE
+  v_wrong NUMBER;
+BEGIN 
+  SELECT DNAME INTO v_wrong
+    FROM DEPARTMENT
+   WHERE DNO = 10;
+END;
+/
+
+-- ERROR --
+"PL/SQL: numeric or value error%s"
+```
+```SQL
+-- 예외를 처리하는 PL/SQL
+DECLARE
+  v_wrong NUMBER;
+BEGIN
+  SELECT DNAME INTO v_wrong
+    FROM DEPARTMENT
+   WHERE DNO = 10;
+   DBMS_OUTPUT.PUT_LINE('예외가 발생하면 다음 문장은 실행되지 않습니다.');
+EXCEPTION
+  WHEN VALUE_ERROR THEN
+    DBMS_OUTPUT.PUT_LINE('예외처리 : 수치 또는 값 오류 발생');
+END;
+/
+
+-- OUTPUT --
+예외처리 : 수치 또는 값 오류 발생
+
+
+PL/SQL 프로시저가 성공적으로 완료되었습니다.
+```
+
+### 미리 정의된 예외 종류
+|예외|설명|
+|---|---|
+|DUP_VAL_ON_INDEX|UNIQUE 인덱스가 있는 열에 중복된 값을 저장하려 할 때|
+|NO_DATA_FOUND|SELECT INTO문에서 결과 행이 아무것도 없을 때|
+|TOO_MANY_ROWS|SELECT INTO문의 결과 행이 여러개일 경우|
+|VALUE_ERROR|산술, 변환, 잘림, 제약 조건 오류가 발생했을 경우|
+|ZERO_DIVIDE|숫자 데이터를 0으로 나누려고 했을 경우|
+
+```SQL
+-- 각 예외를 사용한 예외 처리
+DECLARE
+  v_wrong NUMBER;
+BEGIN
+  SELECT DNAME INTO v_wrong
+    FROM DEPARTMENT
+   WHERE DNO = 50;
+   
+  DBMS_OUTPUT.PUT_LINE('예외 발생 시 다음 문장은 실행 안됨');
+EXCEPTION
+  WHEN TOO_MANY_ROWS THEN 
+    DBMS_OUTPUT.PUT_LINE('예외처리 : 요구보다 많은 행 추출');
+  WHEN VALUE_ERROR THEN
+    DBMS_OUTPUT.PUT_LINE('예외처리 : 수치 또는 값 오류 발생');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('예외처리 : 사전 정의 외 오류 발생');
+    DBMS_OUTPUT.PUT_LINE('SQLCODE : ' || TO_CHAR(SQLCODE));   -- SQLCODE - 에러 코드 출력
+    DBMS_OUTPUT.PUT_LINE('SQLERRM : ' || SQLERRM);            -- SQLERRM - 예외를 출력
+END;
+/
+
+-- OUTPUT --
+예외처리 : 사전 정의 외 오류 발생
+SQLCODE : 100
+SQLERRM : ORA-01403: no data found
+```
+```SQL
+DECLARE
+  v_wrong DATE;
+BEGIN
+  SELECT ENAME INTO v_wrong
+    FROM EMPLOYEE
+   WHERE ENO = 7369;
+   
+  DBMS_OUTPUT.PUT_LINE('예외가 발생하면 다음 문장은 실행되지 않습니다.');
+EXCEPTION
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('오류가 발생하였습니다.' || TO_CHAR(SYSDATE, '[YYYY"년"MM"월"DD"일" HH24"시"MI"분"SS"초"]'));
+    DBMS_OUTPUT.PUT_LINE('SQLCODE : ' || TO_CHAR(SQLCODE));
+    DBMS_OUTPUT.PUT_LINE('SQLERRM : ' || SQLERRM); 
+END;
+/
+
+-- OUTPUT --
+오류가 발생하였습니다.[2022년12월13일 12시34분47초]
+SQLCODE : -1841
+SQLERRM : ORA-01841: (full) year must be between -4713 and +9999, and not be 0
+```

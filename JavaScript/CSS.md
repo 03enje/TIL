@@ -10,7 +10,6 @@ HTML이나 XML로 작성된 문서의 표시 방법을 기술하기 위한 스�
    - [📄 태그 선택자](#-태그-선택자)
    - [📄 아이디 선택자](#-아이디-선택자)
    - [📄 클래스 선택자](#-클래스-선택자)
-   - [📄 선택자 우선순위](#-선택자-우선순위)
 3. [📂 기본 속성](#-3-기본-속성)
    - [📄 텍스트 속성](#-텍스트-속성)
    - [📄 폰트 속성](#-폰트-속성)
@@ -18,8 +17,17 @@ HTML이나 XML로 작성된 문서의 표시 방법을 기술하기 위한 스�
    - [📄 배경 속성](#-배경-속성)
    - [📄 목록 속성](#-목록-속성)
 4. [📂 박스 모델](#-4-박스-모델)
-5. [📂 위치 속성](#-5-위치-속성)
+   - [📄 콘텐츠](#-콘텐츠content)
+   - [📄 패딩](#-패딩padding)
+   - [📄 테두리](#-테두리border)
+   - [📄 마진](#-마진margin)
+5. [📂 디스플레이](#-5-디스플레이)
+   - [📄 인라인](#-인라인inline)
+   - [📄 블록](#-블록block)
+6. [📂 레이아웃](#-6-레이아웃)
+   - [📄 레이아웃](#-레이아웃)
 
+   
 ## 📂 1. How To
 ✔ CSS를 생성하는 법은 3가지가 있습니다.
 
@@ -268,6 +276,18 @@ source : "external_style.html"
 </details>
 
 <hr/>
+
+### 💡 선택자의 우선순위는 어떻게 될까요?
+> 1. 속성 값 뒤에 !important를 붙인 속성
+> 2. HTML에서 style을 직접 지정한 속성(인라인 스타일)
+> 3. #id로 지정한 속성(아이디 선택자)
+> 4. .클래스, :추상클래스로 지정한 속성(클래스 선택자)
+> 5. 태그이름으로 지정한 속성(태그 선택자)
+> 6. 상위 객체에 의해 상속된 속성
+> > 🏆 우선순위 간단 정리
+> >   
+> > !important > 인라인 스타일 > 아이디 선택자 > 클래스 선택자> 태그 선택자
+
 
 🔼[위로가기](#)
 
@@ -753,21 +773,114 @@ source : "external_style.html"
 
 </details>
 
-<hr/>
-
-### 📄 목록 속성
-
-#### 📑 list
+#### 📑 background-position
 
 <details>
 <summary>🔎 자세히</summary><br>
 
-📌 f리스트
+📌 배경에 이미지를 추가합니다.
 
 ```JS
-
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>배경 위치</title>
+    <style>
+        body {
+            background-image: url(https://user-images.githubusercontent.com/64937747/208026560-bbb309a9-ef57-4d7e-9d02-687b13f5b6bb.png);
+            background-repeat: no-repeat;
+            background-position: center top;
+        }
+        p {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <br><br>
+    <p><img src="https://user-images.githubusercontent.com/64937747/208026574-cd31ebf4-94c1-4c49-9aa5-84bccbb338d0.jpg" alt=""></p>
+</body>
+</html>
 ```
-![image](https://user-images.githubusercontent.com/64937747/207829938-297730f0-d701-43c3-b0dc-64b649d502ce.png)
+
+![image](https://user-images.githubusercontent.com/64937747/208026854-83f0c9e4-b6e5-41d3-a601-c864f98da303.png)
+
+</details>
+
+<hr/>
+
+### 📄 목록 속성
+
+#### 📑 list-style-type
+
+<details>
+<summary>🔎 자세히</summary><br>
+
+📌 목록 앞에 붙는 도형이나 문자를 마커(Marker)라 부릅니다.  
+
+📌 disc(default), circle(빈 동그라미), square(정사각형), none(표시하지 않음)
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        li.square {
+            list-style-type: square;
+        }
+        li.circle {
+            list-style-type: circle;
+        }
+        li.dot {
+            list-style-image: url(../img/dot_blue.gif);
+        }
+    </style>
+</head>
+<body>
+    <h3>⭐ 녹색문화 체험여행</h3>
+    <ul>
+        <li class="square">숲 체험 : 수목원 탐방 + 숲 선생님과 생생 오감 활동</li>
+        <li class="circle">곤충 체험 : 살아 있는 곤충 생태 관찰 + 체험 학습</li>
+        <li class="dot">생태 체험 : 동물 먹이 주기 + 생태게임 + 자유 관람</li>
+    </ul>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208026982-a2f5a3bc-7b7d-4393-83ac-f496817e6527.png)
+
+</details>
+
+#### 📑 list-style-image
+
+<details>
+<summary>🔎 자세히</summary><br>
+
+📌 이미지를 이용해 마커(Maker)를 생성합니다.
+
+```JS
+<html>
+<head><html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        li {
+            list-style-image: url(../img/dot_blue.gif);
+        }
+    </style>
+</head>
+<body>
+    <h3>⭐ 녹색문화 체험여행</h3>
+    <ul>
+        <li id="square">숲 체험 : 수목원 탐방 + 숲 선생님과 생생 오감 활동</li>
+        <li id="dot">곤충 체험 : 살아 있는 곤충 생태 관찰 + 체험 학습</li>
+        <li>생태 체험 : 동물 먹이 주기 + 생태게임 + 자유 관람</li>
+    </ul>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208027380-c7bc0499-8beb-4687-8f24-5fbdd9b5e040.png)
 
 </details>
 
@@ -776,13 +889,16 @@ source : "external_style.html"
 🔼[위로가기](#)
 
 ## 📂 4. 박스 모델
-✔ CSS를 배경 속성을 지원합니다.
+✔ 모든 HTML 요소는 박스(box)모양으로 구성되어 있으며, 이것을 박스 모델(box model)이라고 부릅니다.
 
-###  📄 인라인 스타일
+✔ 박스 모델은 콘텐츠(content), 패딩(padding), 경계선(border), 마진(margin)으로 구분합니다.
 
-◽ 스타일 특성을 HTML 태그에 삽입  
+### 💡 박스 모델을 시각적으로 나타내면 다음과 같습니다.
+![box_model](https://user-images.githubusercontent.com/64937747/208029060-5ee13472-ef86-41cf-92e8-928e76fe5d2d.png)
 
-◽ HTML 문서에 간단하게 CSS를 삽입할 수 있지만,  HTML 태그가 복잡해지는 단점
+### 📄 콘텐츠(content)
+
+◽ 텍스트나 이미지가 들어있는 박스의 실질적인 내용입니다.
 
 <details>
 <summary>🔎예제 코드 확인</summary>
@@ -791,16 +907,238 @@ source : "external_style.html"
 <html>
 <head>
     <meta charset="utf-8">
-    <title>인라인 스타일</title>
+    <style>
+        p {
+            width: 500px;
+            border: solid 5px cadetblue;
+        }
+    </style>
 </head>
 <body>
-    <h3 style="color:#0fb382">제목입니다.</h3>
+    <p>
+        봄빛 식물원은 2017년 12월 개원한 이래 방문한 고객들에게
+        자연과 더불어 사는 즐거움을 선사하고 자연과의 만남을 통해
+        삶의 여유와 행복을 제공하고 있습니다. ^^
+    </p>
 </body>
 </html>
 ```
 
-![image](https://user-images.githubusercontent.com/64937747/207759332-f0f846a4-41ad-48ed-9795-a1346ce87364.png)
+![image](https://user-images.githubusercontent.com/64937747/208054200-2f4cfc23-51ac-4002-95ac-9390d2741e09.png)
 
 </details>
 
 <hr/>
+
+### 📄 패딩(padding)
+
+◽ 콘텐츠와 테두리 사이의 간격입니다.
+
+◽ 마진과 패딩의 여백을 설정하는 속성값은 개수만큼 구역 설정이 달라집니다.
+
+◽ 패딩은 시각적으로 보이지 않습니다.
+
+<details>
+<summary>🔎예제 코드 확인</summary>
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        p {
+            width: 500px;
+            border: dashed 5px cadetblue;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        봄빛 식물원은 2017년 12월 개원한 이래 방문한 고객들에게
+        자연과 더불어 사는 즐거움을 선사하고 자연과의 만남을 통해
+        삶의 여유와 행복을 제공하고 있습니다. ^^
+    </p>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208051617-6dee5744-77b7-43d4-a295-c80fac30ee23.png)
+
+</details>
+
+<hr/>
+
+### 📄 테두리(border)
+
+◽   콘텐츠와 패딩을 포함한 경계를 나타내는 선입니다
+
+<details>
+<summary>🔎예제 코드 확인</summary>
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        p {
+            width: 500px;
+            border: dashed 5px cadetblue;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        봄빛 식물원은 2017년 12월 개원한 이래 방문한 고객들에게
+        자연과 더불어 사는 즐거움을 선사하고 자연과의 만남을 통해
+        삶의 여유와 행복을 제공하고 있습니다. ^^
+    </p>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208055328-188cb67c-bc46-43b7-ba08-ffe12eeef86f.png)
+
+</details>
+
+<hr/>
+
+### 📄 마진(margin)
+
+◽ 테두리와 이웃하는 요소 사이의 간격입니다.  
+
+◽ 마진은 시각적으로 보이지 않습니다.
+
+<details>
+<summary>🔎예제 코드 확인</summary>
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        p {
+            width: 500px;
+            border: dashed 5px cadetblue;
+            padding: 50px 30px;
+            margin: 30px 50px 30px 50px;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        봄빛 식물원은 2017년 12월 개원한 이래 방문한 고객들에게
+        자연과 더불어 사는 즐거움을 선사하고 자연과의 만남을 통해
+        삶의 여유와 행복을 제공하고 있습니다. ^^
+    </p>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208055439-36cadd67-01d8-418a-b7f6-a3843a887b8c.png)
+
+</details>
+
+<hr/>
+
+🔼[위로가기](#)
+
+## 📂 5. 디스플레이
+✔ 웹 페이지의 레이아웃(layout)을 결정하는 CSS의 속성입니다.  
+
+✔ 해당 HTML 요소가 웹 브라우저에 어떻게 보이는가를 결정합니다.
+
+### 📄 인라인(inline)
+
+◽ HTML 요소의 크기를 설정할 수 없으며 수평 방향으로 디스플레이됩니다.  
+
+◽ 대표적으로 \<span>, \<a>, \<img> 등이 있습니다.
+
+<details>
+<summary>🔎예제 코드 확인</summary>
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>inline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style-type: none;
+        }
+        #menu {
+            width: 500px;
+            padding: 10px;
+            margin: 20px 0 0 40px;
+            background-color: #eeeeee;
+            border: solid 1px aaaaaa;
+            display: inline;
+            text-align: center;
+        }
+        #menu li {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <ul id="menu">
+        <li>회사소개 |</li>
+        <li>제품소개 |</li>
+        <li>공지사항 |</li>
+        <li>업무제휴 |</li>
+        <li>고객센터</li>
+    </ul>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208055768-7a5d83ca-5cc4-4ba2-963d-7b038236906e.png)
+
+</details>
+
+<hr/>
+
+### 📄 블록(block)
+
+◽ HTML 요소의 크기를 설정할 수 있으며 줄에 하나씩 수직 방향으로 디스플레이됩니다.  
+
+◽ 대표적으로 \<div>, \<h1>, \<p>, \<ul>, \<ol>, \<form> 등이 있습니다.
+
+<details>
+<summary>🔎예제 코드 확인</summary>
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>block</title>
+    <style>
+        a {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <p>수직 방향 메뉴</p>
+    <a href="http://naver.com" target="_blank">네이버</a>
+    <a href="http://daum.net" target="_blank">다음</a>
+    <a href="http://google.com" target="_blank">구글</a>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208056049-63b72a86-fb54-4e59-80d6-b1c240d6ab82.png)
+
+</details>
+
+<hr/>
+
+### 💡 일반적인 웹페이지 레이아웃
+
+![website_layout](https://user-images.githubusercontent.com/64937747/208061014-0ef0e924-d1ca-4167-b827-b140a2baf8db.png)
+
+🔼[위로가기](#)
