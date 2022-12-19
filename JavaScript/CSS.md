@@ -21,12 +21,10 @@ HTML이나 XML로 작성된 문서의 표시 방법을 기술하기 위한 스�
    - [📄 패딩](#-패딩padding)
    - [📄 테두리](#-테두리border)
    - [📄 마진](#-마진margin)
-5. [📂 디스플레이](#-5-디스플레이)
-   - [📄 인라인](#-인라인inline)
-   - [📄 블록](#-블록block)
-6. [📂 레이아웃](#-6-레이아웃)
-   - [📄 레이아웃](#-레이아웃)
-
+5. [📂 위치 속성](#-5-위치-속성)
+   - [📄 디스플레이](#-디스플레이display)
+   - [📄 플로트](#-플로트float)
+   - [📄 포지션](#-포지션position)
    
 ## 📂 1. How To
 ✔ CSS를 생성하는 법은 3가지가 있습니다.
@@ -1043,19 +1041,24 @@ source : "external_style.html"
 
 🔼[위로가기](#)
 
-## 📂 5. 디스플레이
+## 📂 5. 위치 속성
 ✔ 웹 페이지의 레이아웃(layout)을 결정하는 CSS의 속성입니다.  
 
-✔ 해당 HTML 요소가 웹 브라우저에 어떻게 보이는가를 결정합니다.
+### 📄 디스플레이(display)
 
-### 📄 인라인(inline)
+◽ 해당 HTML 요소가 웹 브라우저에 어떻게 보이는가를 결정합니다.
 
-◽ HTML 요소의 크기를 설정할 수 없으며 수평 방향으로 디스플레이됩니다.  
+### 💡 일반적인 웹페이지 레이아웃 디스플레이
+![website_layout](https://user-images.githubusercontent.com/64937747/208061014-0ef0e924-d1ca-4167-b827-b140a2baf8db.png)
 
-◽ 대표적으로 \<span>, \<a>, \<img> 등이 있습니다.
+#### 📑 인라인(inline)
 
 <details>
-<summary>🔎예제 코드 확인</summary>
+<summary>🔎자세히</summary><br>
+
+📌 HTML 요소의 크기를 설정할 수 없으며 수평 방향으로 디스플레이됩니다.  
+
+📌 대표적으로 \<span>, \<a>, \<img> 등이 있습니다.
 
 ```JS
 <html>
@@ -1100,16 +1103,14 @@ source : "external_style.html"
 
 </details>
 
-<hr/>
-
-### 📄 블록(block)
-
-◽ HTML 요소의 크기를 설정할 수 있으며 줄에 하나씩 수직 방향으로 디스플레이됩니다.  
-
-◽ 대표적으로 \<div>, \<h1>, \<p>, \<ul>, \<ol>, \<form> 등이 있습니다.
+#### 📑 블록(block)
 
 <details>
-<summary>🔎예제 코드 확인</summary>
+<summary>🔎자세히</summary><br>
+
+📌 HTML 요소의 크기를 설정할 수 있으며 줄에 하나씩 수직 방향으로 디스플레이됩니다.  
+
+📌 대표적으로 \<div>, \<h1>, \<p>, \<ul>, \<ol>, \<form> 등이 있습니다.
 
 ```JS
 <html>
@@ -1137,8 +1138,226 @@ source : "external_style.html"
 
 <hr/>
 
-### 💡 일반적인 웹페이지 레이아웃
+### 📄 플로트(float)
 
-![website_layout](https://user-images.githubusercontent.com/64937747/208061014-0ef0e924-d1ca-4167-b827-b140a2baf8db.png)
+◽ HTML 요소가 주변의 다른 요소들과 자연스럽게 어울리도록 만들어 줍니다.
+
+#### 📑 float
+
+<details>
+<summary>🔎자세히</summary><br>
+
+📌 웹페이지에서 이미지를 어떻게 띄워서 텍스트와 함께 배치할 것인가에 대한 속성입니다.
+
+📌 웹 페이지의 레이아웃을 작성할 때 자주 사용됩니다.
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        .items {
+            border: solid 3px #000000;
+            float: left;
+            margin: 5px;
+        }
+        .items img {
+            display: block;
+        }
+        .clear {
+            clear: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="items"><img src="img/image1.jpg"></div>
+    <div class="items"><img src="img/image2.jpg"></div>
+    <div class="items"><img src="img/image3.jpg"></div>
+    <div class="items"><img src="img/image4.jpg"></div>
+    <div class="items"><img src="img/image5.jpg"></div>
+    <div class="items"><img src="img/image6.jpg"></div>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208394173-2bed3bb4-c6f7-4655-96e7-e7e848a789b0.png)
+
+</details>
+
+#### 📑 clear
+
+<details>
+<summary>🔎자세히</summary><br>
+
+📌 float 속성이 적용된 이후 나타나는 요소들의 동작을 조절해 줍니다.  
+
+📌 즉, 이전 float 속성을 제거해주는 속성입니다.
+
+```JS
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        .items {
+            border: solid 3px #000000;
+            float: left;
+            margin: 5px;
+        }
+        .items img {
+            display: block;
+        }
+        .clear {
+            clear: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="items"><img src="img/image1.jpg" width="200"></div>
+    <div class="items"><img src="img/image2.jpg"width="200"></div>
+    <div class="items"><img src="img/image3.jpg"width="200"></div>
+
+    <div class="clear"></div>
+
+    <div class="items"><img src="img/image4.jpg"width="200"></div>
+    <div class="items"><img src="img/image5.jpg"width="200"></div>
+    <div class="items"><img src="img/image6.jpg"width="200"></div>
+</body>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208394111-e036a7d0-a53c-4f94-848e-1b9115fd309f.png)
+
+</details>
+
+<hr/>
+
+### 📄 포지션(position)
+
+◽ HTML 요소가 위치를 결정하는 방식을 설정합니다.
+
+#### 📑 relative
+
+<details>
+<summary>🔎자세히</summary><br>
+
+📌 상대 위치 지정 방식(relative position)  
+
+📌 해당 HTML요소의 기본 위치를 기준으로 위치를 설정하는 방식입니다.
+
+```JS
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #parent {
+            width: 500px;
+            height: 300px;
+            border: solid 5px #000000;
+            margin: 50px 0 0 50px;
+        }
+        #box1, #box2, #box3 {
+            width: 80px;
+            height: 80px;
+        }
+        #box1 { background-color: #cccccc; }
+        #box2 { background-color: antiquewhite; }
+        #box3 { background-color: aquamarine; }
+
+        #box2 {
+            position: relative;
+            top: 20px;
+            left: 30px;
+        }
+    </style>
+</head>
+<div id="parent">
+    <div id="box1"></div>
+    <div id="box2"></div>
+    <div id="box3"></div>
+</div>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208396872-82dca688-6f05-40a7-be17-553d8b3c62e2.png)
+
+</details>
+
+#### 📑 fixed
+
+<details>
+<summary>🔎자세히</summary><br>
+
+📌 고정 위치 지정 방식(fixed position)  
+
+📌 뷰포트(viewport)를 기준으로 위치를 설정하는 방식입니다.
+
+</details>
+
+#### 📑 absolute
+
+<details>
+<summary>🔎자세히</summary><br>
+
+📌 절대 위치 지정 방식(absolute position)  
+
+📌 위치가 설정된 조상(ancestor) 요소를 기준으로 위치를 설정하게 됩니다.  
+
+📌 조상 요소를 가지지 않는다면, HTML 문서의 body 요소를 기준으로 위치를 설정하게 됩니다.
+
+```JS
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #parent {
+            width: 500px;
+            height: 300px;
+            border: solid 5px #000000;
+            margin: 50px 0 0 50px;
+        }
+        #box1, #box2, #box3 {
+            width: 80px;
+            height: 80px;
+        }
+        #box1 { background-color: #cccccc; }
+        #box2 { background-color: antiquewhite; }
+        #box3 { background-color: aquamarine; }
+        /*
+         * 부모태그가 relative이면 부모태그 기준으로 absolute를 적용
+         */
+        #parent {
+            position: relative;
+        }
+        #box2 {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+        }
+
+    </style>
+</head>
+<div id="parent">
+    <div id="box1"></div>
+    <div id="box2"></div>
+    <div id="box3"></div>
+</div>
+</html>
+```
+
+![image](https://user-images.githubusercontent.com/64937747/208396806-26705cf4-0d81-4d48-abbe-04b077dfecc3.png)
+
+</details>
+
+<hr/>
 
 🔼[위로가기](#)
