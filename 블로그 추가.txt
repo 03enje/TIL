@@ -7,3 +7,9 @@ https://doozi0316.tistory.com/entry/JavaScript-ECMAScript%EB%9E%80-ES5%EC%99%80-
 https://javascript.info/
 
 부동 가변 실수형 유효자리수의 의미
+
+문맥과 구문
+
+메모리 구조
+
+수학적 증명
