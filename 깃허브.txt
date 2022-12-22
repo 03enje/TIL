@@ -1,0 +1,13 @@
+git init          // 초기화
+
+git remote add origin <url>          // 원격저장소에 연결한다.
+
+git remote -v          // 연결되었는지 확인한다.
+
+git fetch          // 원격저장소의 branch를 가져온다.
+
+git branch -a          // 원격저장소 목록을 조회한다.
+
+git pull origin main
+
+git merge origin/master          // 로컬저장소에 병합한다.
