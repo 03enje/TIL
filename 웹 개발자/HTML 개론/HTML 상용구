@@ -36,8 +36,8 @@ head는 메타데이터 요소라고 부르기도 합니다. 메타데이터는 
 
 ### body 요소
 
-```python
-Question.objects.filter(question_text__contains='new')
+```html
+<body></body>
 ```
 
 문서의 모든 내용을 담고 있는 요소입니다. 즉, HTML 상용구를 제외한 요소들을 담을 수 있습니다. HTML에서 body는 단 하나만 존재할 수 있습니다.
