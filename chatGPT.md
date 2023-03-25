@@ -199,3 +199,21 @@ public List<Company> getAllCompanies() {
     return companies;
 }
 ```
+
+## Avoid enormous network payloads on the json call with light house
+
+To avoid enormous network payloads on the JSON call and improve your website's performance, you can follow these steps recommended by Lighthouse:
+
+Compress the JSON data: JSON data can be compressed using Gzip or Brotli to reduce its size, which can significantly improve page load times. Many server-side programming languages, such as Node.js, provide built-in support for compressing data.
+
+Use pagination: If the JSON data returned by the server is large, consider implementing pagination to reduce the amount of data returned with each request. This can improve performance and reduce the overall size of the network payload.
+
+Cache JSON data: If the JSON data returned by the server is not frequently changing, consider caching it on the client-side or server-side. This can reduce the number of requests made to the server and improve page load times.
+
+Minimize unnecessary data: Only include the necessary data in the JSON response to minimize the size of the network payload. This can be achieved by filtering or mapping the data before sending it to the client.
+
+Use compression for images and other assets: Compress images and other assets using tools like Gzip or Brotli to reduce their size and improve page load times. Use appropriate image formats and resolutions for different device types to ensure optimal performance.
+
+Optimize server-side performance: Ensure that the server-side code is optimized for performance and is using efficient algorithms to process the JSON data. Use tools like profiling to identify and fix any performance bottlenecks in the code.
+
+By implementing these recommendations, you can improve your website's performance and avoid enormous network payloads on the JSON call, which can have a significant impact on the user experience.
